@@ -6,6 +6,7 @@ import { Timer } from './Timer';
 import { LanguageSelector } from './LanguageSelector';
 import QuizResults from './QuizResults';
 
+
 // Define translation resources
 const resources = {
   en: {
@@ -49,8 +50,6 @@ const QuizApp = () => {
       }
     });
   }, []);
-
-  
 
   // Sample quiz data - in production, this would come from an API
   const quizData = {
@@ -111,15 +110,16 @@ const QuizApp = () => {
         correctAnswer: 'A'
       }
     ],
-    totalQuestions: 5
+    totalQuestions: 5  
   };
+  
 
   if (isQuizComplete) {
     return (
       <QuizResults
         answers={answers}
         questions={quizData.questions}
-        timeSpent={timeSpent}
+        timeSpent={timeRemaining}
         onRetry={resetQuiz}
       />
     );
@@ -142,27 +142,28 @@ const QuizApp = () => {
   return (
     <div className="min-h-screen bg-gray-100">
       {/* Header */}
-      <header className="bg-black text-white p-4 flex justify-between items-center fixed top-0 w-full z-10 shadow-md">
+      <header className="bg-black text-white p-4 flex justify-between items-center fixed top-0 w-full z-10">
         <div className="flex items-center space-x-4">
           <div className="text-xl font-bold">Quiz20</div>
           <LanguageSelector />
         </div>
         <Timer />
-        <button className="w-8 h-8 text-white bg-gray-800 rounded-full hover:bg-gray-700 transition">
-          🌙
-        </button>
+        <button className="w-8 h-8 text-white">🌙</button>
       </header>
 
       {/* Main Content */}
-      <main className="p-6 pt-28 max-w-2xl mx-auto min-h-screen">
+      <main className="p-4 pt-20 max-w-2xl mx-auto min-h-screen">
         <div className="mb-6">
-          <div className="text-sm text-gray-600">{t('quizBy')} Quiz20</div>
-          
+          <div className="text-sm text-gray-600">{t('quizBy')} Quiz20 </div>
+            
           {/* Progress Bar */}
           <div className="flex items-center mt-4 space-x-2">
             {Array.from({ length: quizData.totalQuestions }).map((_, idx) => (
               <div key={idx} className="flex-1">
-                <div className={`h-1 rounded ${idx === currentQuestion ? 'bg-green-500' : idx < currentQuestion ? 'bg-gray-300' : 'bg-gray-200'}`}></div>
+                <div className={`h-1 rounded ${
+                  idx === currentQuestion ? 'bg-green-500' : 
+                  idx < currentQuestion ? 'bg-gray-300' : 'bg-gray-200'
+                }`}></div>
               </div>
             ))}
           </div>
@@ -175,12 +176,14 @@ const QuizApp = () => {
               {t('question')} {currentQuestion + 1} {t('of')} {quizData.totalQuestions}
             </div>
             <div className="flex space-x-4">
-              <Share2 className="w-6 h-6 text-gray-600 hover:text-blue-500 cursor-pointer" />
-              <Volume2 className="w-6 h-6 text-gray-600 hover:text-blue-500 cursor-pointer" />
-              <AlertTriangle className="w-6 h-6 text-gray-600 hover:text-yellow-500 cursor-pointer" />
+              <Share2 className="w-6 h-6 text-gray-600" />
+              <Volume2 className="w-6 h-6 text-gray-600" />
+              <AlertTriangle className="w-6 h-6 text-gray-600" />
             </div>
           </div>
-          <h2 className="text-lg font-medium">{quizData.questions[currentQuestion].question}</h2>
+          <h2 className="text-lg font-medium">
+            {quizData.questions[currentQuestion].question}
+          </h2>
         </div>
 
         {/* Options */}
@@ -188,11 +191,14 @@ const QuizApp = () => {
           {quizData.questions[currentQuestion].options.map((option) => (
             <button
               key={option.id}
-              className={`w-full p-4 text-left rounded-lg border ${
-                answers[currentQuestion] === option.id
-                  ? 'border-blue-500 bg-blue-50'
+              className={`w-full p-4 text-left rounded-lg border 
+                ${answers[currentQuestion] === option.id 
+                  ? 'border-blue-500 bg-blue-50' 
                   : 'border-gray-300 hover:border-blue-300'
-              } transition-colors duration-200 active:bg-blue-100 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50`}
+                } 
+                transition-colors duration-200
+                active:bg-blue-100
+                focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50`}
               onClick={() => setAnswer(currentQuestion, option.id)}
             >
               <span className="font-medium">{option.id}.</span> {option.text}
@@ -205,18 +211,21 @@ const QuizApp = () => {
           <button
             onClick={handlePrevious}
             disabled={currentQuestion === 0}
-            className={`p-4 rounded-lg flex items-center justify-center space-x-2 ${
-              currentQuestion === 0
-                ? 'bg-gray-300 cursor-not-allowed'
+            className={`p-4 rounded-lg flex items-center justify-center space-x-2
+              ${currentQuestion === 0 
+                ? 'bg-gray-300 cursor-not-allowed' 
                 : 'bg-gray-200 hover:bg-gray-300 active:bg-gray-400'
-            } transition-colors duration-200`}
+              }
+              transition-colors duration-200`}
           >
             <ChevronLeft className="w-5 h-5" />
             <span>{t('previous')}</span>
           </button>
           <button
             onClick={handleNext}
-            className="p-4 rounded-lg bg-gray-900 text-white flex items-center justify-center space-x-2 hover:bg-gray-800 active:bg-gray-700 transition-colors duration-200"
+            className="p-4 rounded-lg bg-gray-900 text-white flex items-center justify-center space-x-2 
+              hover:bg-gray-800 active:bg-gray-700
+              transition-colors duration-200"
           >
             <span>{currentQuestion === quizData.totalQuestions - 1 ? t('submit') : t('next')}</span>
             <ChevronRight className="w-5 h-5" />

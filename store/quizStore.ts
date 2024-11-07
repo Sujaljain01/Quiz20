@@ -3,6 +3,7 @@ import { persist } from 'zustand/middleware';
 
 type QuizStore = {
   currentQuestion: number;
+  quizDuration: number;
   answers: Record<number, string>;
   language: string;
   timeRemaining: number;
@@ -20,6 +21,7 @@ export const useQuizStore = create<QuizStore>()(
     (set) => ({
       currentQuestion: 0,
       answers: {},
+      quizDuration: 300,
       timeSpent: 0,
       language: 'en',
       timeRemaining: 300, // 5 minutes in seconds

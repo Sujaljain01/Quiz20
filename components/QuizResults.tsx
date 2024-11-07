@@ -1,7 +1,6 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Trophy, Clock, RotateCcw, Share2 } from 'lucide-react';
-import { create } from 'zustand';
 interface QuizResultsProps {
   answers: Record<number, string>; // If answers is an array of strings (e.g., ['A', 'B', 'C'])
   questions: Array<{
@@ -25,12 +24,12 @@ const QuizResults: React.FC<QuizResultsProps> = ({ answers, questions, timeSpent
   const scorePercentage = Math.round((totalScore / questions.length) * 100);
   
   // Format time spent
-  const formatTime = (seconds: number): string => {
-    const minutes = Math.floor(seconds / 60);
-    const remainingSeconds = seconds % 60;
-    return `${minutes}:${remainingSeconds.toString().padStart(2, '0')}`;
-  };
-  
+ const formatTime = (seconds: number): string => {
+  const minutes = Math.floor(seconds / 60);
+  const remainingSeconds = seconds % 60;
+  return `${minutes}:${remainingSeconds.toString().padStart(2, '0')}`;
+};
+
 
   return (
     <div className="min-h-screen bg-gray-100 p-4">
